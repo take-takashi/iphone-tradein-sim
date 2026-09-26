@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <meta name="description" content="iPhoneを何年使うか、無印とProの差額はいくらかを、編集可能な仮定で比較するシミュレーター。">
+  <title>iPhone買い替えコストシミュレーター</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./simulator.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="wordmark" href="./" aria-label="シミュレーターのトップ">
+        <span class="wordmark-icon" aria-hidden="true">↗</span>
+        <span>UPGRADE / COST</span>
+      </a>
+      <span class="header-note">日本で新品購入・Apple Trade In を想定</span>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro">
+      <p class="eyebrow">YOUR MONEY, YOUR ASSUMPTIONS</p>
+      <h1>iPhone、何年使うと<br class="mobile-break">自分にちょうどいい？</h1>
+      <p class="intro-copy">「最安」を決めつけるのではなく、買い替えを早める費用やProを選ぶ差額を見える化します。将来の価格・下取り額は予測ではなく、すべて編集できる仮定です。</p>
+      <div class="trust-line"><span class="dot"></span> 未検証の発売価格・下取り履歴は実績データとして使っていません</div>
+    </section>
+
+    <div class="workspace">
+      <aside class="controls-panel" aria-label="シミュレーション条件">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">SETUP</p>
+            <h2>条件を設定</h2>
+          </div>
+          <button type="button" class="text-button" id="reset-button">初期値に戻す</button>
+        </div>
+
+        <section class="form-section">
+          <div class="section-title"><span class="step">01</span><h3>いまの状況</h3></div>
+          <div class="field-grid">
+            <label class="field full">
+              <span>現在の端末</span>
+              <input type="text" value="iPhone 15 Pro" readonly aria-describedby="current-device-note">
+              <small id="current-device-note">モデル名は仕様の入力例です</small>
+            </label>
+            <label class="field">
+              <span>使用年数 <em>年</em></span>
+              <input data-key="currentAge" type="number" min="0" max="20" step="0.5" value="3">
+            </label>
+            <label class="field">
+              <span>いまの個別下取り見積もり</span>
+              <span class="input-with-unit"><input data-key="currentQuote" type="number" min="0" step="1000" value="74000"><b>円</b></span>
+            </label>
+            <label class="field">
+              <span>見積もり時点</span>
+              <input data-key="quoteDate" type="month" value="2026-09">
+            </label>
+            <label class="field">
+              <span>この端末を使い続けた場合の期末残価 <em>仮定</em></span>
+              <span class="input-with-unit"><input data-key="currentTerminalValue" type="number" min="0" step="1000" value="10000"><b>円</b></span>
+              <small>評価期間を変えたら、期末残価も見直してください</small>
+            </label>
+          </div>
+          <p class="field-note">74,000円は本人申告の端末ごとの見積もり例です。公開上限額や最終査定額ではありません。容量・状態も含め、必要に応じて編集してください。</p>
+        </section>
+
+        <section class="form-section">
+          <div class="section-title"><span class="step">02</span><h3>購入と比較期間</h3></div>
+          <div class="field-grid">
+            <label class="field">
+              <span>評価期間</span>
+              <span class="input-with-unit"><input data-key="horizon" type="number" min="6" max="20" step="1" value="12"><b>年</b></span>
+              <small>全方針を同じ期間で比較</small>
+            </label>
+            <label class="field">
+              <span>開始日</span>
+              <input data-key="startDate" type="date" value="2026-09-01">
+            </label>
+            <label class="field">
+              <span>新しい無印（最小容量）を買う価格 <em>仮定</em></span>
+              <span class="input-with-unit"><input data-key="standardPrice" type="number" min="0" step="1000" value="150000"><b>円</b></span>
+            </label>
+            <label class="field">
+              <span>新しいPro（最小容量）を買う価格 <em>仮定</em></span>
+              <span class="input-with-unit"><input data-key="proPrice" type="number" min="0" step="1000" value="200000"><b>円</b></span>
+            </label>
+          </div>
+          <p class="field-note">購入価格は計算例の仮置きです。新品・各製品の最小容量を想定しますが、特定世代の公式発売価格・販売価格を示すものではありません。</p>
+        </section>
+
+        <section class="form-section">
+          <div class="section-title"><span class="step">03</span><h3>費用差を比べる</h3></div>
+          <div class="field-grid">
+            <label class="field">
+              <span>買い替えを早める方針</span>
+              <select data-key="earlyCycle"><option value="3" selected>無印・3年ごと</option><option value="4">無印・4年ごと</option><option value="5">無印・5年ごと</option></select>
+            </label>
+            <label class="field">
+              <span>長く使う方針</span>
+              <select data-key="lateCycle"><option value="4">無印・4年ごと</option><option value="5">無印・5年ごと</option><option value="6" selected>無印・6年ごと</option></select>
+            </label>
+            <label class="field">
+              <span>Proと比べる無印の周期</span>
+              <select data-key="proCompareCycle"><option value="3" selected>無印・3年ごと</option><option value="4">無印・4年ごと</option><option value="5">無印・5年ごと</option><option value="6">無印・6年ごと</option></select>
+            </label>
+            <label class="field">
+              <span>Proの買い替え周期</span>
+              <select data-key="proCycle"><option value="3" selected>Pro・3年ごと</option><option value="4">Pro・4年ごと</option><option value="5">Pro・5年ごと</option><option value="6">Pro・6年ごと</option></select>
+            </label>
+          </div>
+          <p class="field-note">結果は各方針の開始日に端末を買い、選んだ周期で下取り・買い替える想定です。「現在の端末を使い続ける」方針も別に比較します。</p>
+        </section>
+
+        <details class="assumptions" open>
+          <summary><span class="step">04</span><span>将来の下取り・修理の仮定</span><span class="summary-hint">すべて編集できます</span></summary>
+          <div class="details-body">
+            <p class="assumption-intro">下取り額はApple Trade Inの予測・保証ではありません。購入からの年数ごとに置いた、計算用の仮定です。</p>
+            <div id="tradein-inputs"></div>
+
+            <h4>電池交換・修理費</h4>
+            <div class="field-grid">
+              <label class="field">
+                <span>電池交換を見込む使用年数 <em>仮定</em></span>
+                <span class="input-with-unit"><input data-key="batteryAge" type="number" min="1" max="15" step="1" value="4"><b>年</b></span>
+              </label>
+              <label class="field">
+                <span>無印の電池交換費 <em>仮定</em></span>
+                <span class="input-with-unit"><input data-key="standardBatteryCost" type="number" min="0" step="1000" value="20000"><b>円</b></span>
+              </label>
+              <label class="field">
+                <span>Proの電池交換費 <em>仮定</em></span>
+                <span class="input-with-unit"><input data-key="proBatteryCost" type="number" min="0" step="1000" value="25000"><b>円</b></span>
+              </label>
+              <label class="field">
+                <span>無印の修理費予備費 <em>仮定</em></span>
+                <span class="input-with-unit"><input data-key="standardRepairPerYear" type="number" min="0" step="500" value="2000"><b>円/年</b></span>
+              </label>
+              <label class="field">
+                <span>Proの修理費予備費 <em>仮定</em></span>
+                <span class="input-with-unit"><input data-key="proRepairPerYear" type="number" min="0" step="500" value="2500"><b>円/年</b></span>
+              </label>
+            </div>
+            <p class="field-note">電池交換は、端末を交換せず設定年数を超えて使う場合に1回計上。修理費予備費は使用年数に比例して計上します。実際の故障や修理費を予測するものではありません。</p>
+
+            <h4>将来の価格シナリオ</h4>
+            <p class="field-note profile-note">選択した倍率を、2台目以降の購入価格・将来の下取り額・修理費に適用します。いまの購入価格と本人見積もりには適用しません。</p>
+            <label class="field scenario-select">
+              <span>計算に使うシナリオ</span>
+              <select data-key="activeProfile" id="active-profile"></select>
+            </label>
+            <div id="profile-inputs"></div>
+            <div class="source-legend"><span class="tag tag-observed">本人申告</span><span class="tag tag-assumption">仮定値</span><span class="tag tag-unknown">公開データ未収録</span></div>
+          </div>
+        </details>
+      </aside>
+
+      <section class="results-panel" aria-label="比較結果">
+        <div class="results-topline">
+          <div>
+            <p class="eyebrow">COMPARISON</p>
+            <h2>同じ期間で比べる</h2>
+          </div>
+          <div class="horizon-chip"><span id="horizon-label">12</span>年間の累計</div>
+        </div>
+
+        <div id="results" aria-live="polite" aria-atomic="false"></div>
+
+        <section class="method-card">
+          <div class="method-icon" aria-hidden="true">i</div>
+          <div>
+            <h3>計算の前提</h3>
+            <p>全方針に共通する開始時の端末価値（個別見積もり）を一度だけ費用に加え、売却する方針では同額の受取を計上します。過去の購入代金は含めません。期間純費用は「購入−下取り＋電池交換・修理−期末残価」です。</p>
+            <p>月額・年額は評価期間全体の純費用を均等割りした比較指標で、実際の分割払い額ではありません。割引率・インフレ・金利は考慮していません。</p>
+          </div>
+        </section>
+
+        <footer class="page-footer">
+          <span>このシミュレーターは判断材料を提供するもので、最安の買い替え方針を推奨しません。</span>
+          <span>入力内容はこのブラウザー内に保存されます。</span>
+        </footer>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
